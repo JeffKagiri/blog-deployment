@@ -1,0 +1,28 @@
+{
+  "name": "mern-blog-platform",
+  "version": "1.0.0",
+  "description": "Full-stack MERN blog application deployed on Azure",
+  "main": "server/server.js",
+  "scripts": {
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "server": "cd server && npm run dev",
+    "client": "cd client && npm start",
+    "build": "npm run build-client && npm run build-server",
+    "build-client": "cd client && npm install && npm run build",
+    "build-server": "cd server && npm install",
+    "start": "cd server && npm start",
+    "install-all": "npm run install-client && npm run install-server",
+    "install-client": "cd client && npm install",
+    "install-server": "cd server && npm install",
+    "postinstall": "npm run build-client"
+  },
+  "keywords": ["mern", "blog", "react", "node", "mongodb", "azure"],
+  "author": "Jeff Kagiri",
+  "license": "MIT",
+  "devDependencies": {
+    "concurrently": "^7.6.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
