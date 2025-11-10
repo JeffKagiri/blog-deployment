@@ -1,0 +1,392 @@
+/* 
+ * MERN Blog Platform - Main Stylesheet
+ * This file contains all the custom styles for the blogging application
+ */
+
+/* ===== GLOBAL STYLES ===== */
+body {
+  background-color: #efecce; /* Warm parchment-like background */
+  margin: 0;
+  padding: 0;
+  font-family: "Roboto", "Segoe UI", Arial, sans-serif; /* Material-UI font stack */
+  line-height: 1.6;
+}
+
+/* 
+ * App Container
+ * Main wrapper for the entire application
+ */
+.app {
+  font-family: Arial, sans-serif;
+  background-color: #efecce;
+  min-height: 100vh; /* Full viewport height */
+}
+
+/* 
+ * App Bar (Navigation Bar)
+ * Top navigation bar styling
+ */
+.app-bar {
+  background-color: #62929a !important; /* Teal color from design */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) !important; /* Subtle shadow */
+}
+
+/* 
+ * App Title in Navigation
+ * Blog platform title styling
+ */
+.app-title {
+  flex-grow: 1; /* Pushes other elements to the right */
+  font-weight: bold !important;
+}
+
+/* 
+ * Main Content Container
+ * Wrapper for all page content
+ */
+.container {
+  padding-top: 20px;
+  max-width: 1200px; /* Maximum width for large screens */
+  margin: 0 auto; /* Center the container */
+  padding-left: 16px;
+  padding-right: 16px;
+}
+
+/* ===== CARD STYLES ===== */
+
+/* 
+ * Card Base Styling
+ * Used for both post cards and form cards
+ */
+.card {
+  height: 100%;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+  background-color: #fff; /* White background for cards */
+  border-radius: 8px; /* Rounded corners */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1) !important; /* Card shadow */
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out; /* Smooth hover effects */
+}
+
+/* 
+ * Card Hover Effects
+ * Interactive feedback when hovering over cards
+ */
+.card:hover {
+  transform: translateY(-2px); /* Lift effect on hover */
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15) !important; /* Enhanced shadow on hover */
+}
+
+/* 
+ * Card Content Area
+ * Main content area within cards
+ */
+.card-content {
+  flex-grow: 1; /* Allows content to expand and push actions to bottom */
+  padding: 0; /* Remove default padding for custom spacing */
+}
+
+/* 
+ * Form Input Fields
+ * Styling for text inputs and textareas
+ */
+.card-content input,
+.card-content textarea {
+  width: 100%;
+  margin-bottom: 15px;
+  padding: 12px;
+  border: 1px solid #ddd; /* Light gray border */
+  border-radius: 4px;
+  font-family: inherit; /* Use same font as parent */
+  font-size: 14px;
+  box-sizing: border-box; /* Include padding in width calculation */
+  transition: border-color 0.2s ease, box-shadow 0.2s ease; /* Smooth focus effects */
+}
+
+/* 
+ * Input Focus States
+ * Enhanced appearance when user focuses on inputs
+ */
+.card-content input:focus,
+.card-content textarea:focus {
+  outline: none; /* Remove default outline */
+  border-color: #62929a; /* Brand color border */
+  box-shadow: 0 0 0 2px rgba(98, 146, 154, 0.2); /* Glow effect */
+}
+
+/* 
+ * Textarea Specific Styling
+ * Multi-line text input adjustments
+ */
+.card-content textarea {
+  resize: vertical; /* Allow vertical resizing only */
+  min-height: 120px; /* Minimum height for content area */
+}
+
+/* ===== BUTTON STYLES ===== */
+
+/* 
+ * Primary Action Button
+ * Used for adding new posts
+ */
+.add-post-button {
+  padding: 12px 24px;
+  background-color: #62929a; /* Brand color */
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s;
+  font-size: 16px;
+  font-weight: 500;
+  text-transform: none; /* Prevent uppercase transformation */
+}
+
+/* 
+ * Button Hover State
+ * Interactive feedback for primary button
+ */
+.add-post-button:hover {
+  background-color: #507f86; /* Darker shade on hover */
+  transform: translateY(-1px); /* Slight lift effect */
+}
+
+/* 
+ * Button Disabled State
+ * Visual indication when button is not clickable
+ */
+.add-post-button:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* ===== POST CONTENT STYLES ===== */
+
+/* 
+ * Post Title Styling
+ * Blog post title appearance
+ */
+.post-title {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 15px;
+  color: #333; /* Dark gray for better readability */
+  border-bottom: 2px solid #62929a; /* Accent underline */
+  padding-bottom: 8px;
+}
+
+/* 
+ * Post Content Body
+ * Main blog post content styling
+ */
+.post-content {
+  font-size: 16px;
+  line-height: 1.6; /* Better readability for long text */
+  color: #555; /* Medium gray for content */
+  margin-bottom: 15px;
+  white-space: pre-wrap; /* Preserve line breaks from textarea */
+}
+
+/* 
+ * Post Date Styling
+ * Timestamp for created/updated dates
+ */
+.post-date {
+  font-size: 12px;
+  color: #888; /* Light gray for secondary information */
+  margin-bottom: 10px;
+  font-style: italic;
+}
+
+/* ===== CARD ACTIONS STYLES ===== */
+
+/* 
+ * Card Actions Container
+ * Wrapper for action buttons at card bottom
+ */
+.card-actions {
+  display: flex;
+  justify-content: flex-end; /* Align buttons to the right */
+  margin-top: 15px;
+  padding-top: 15px;
+  border-top: 1px solid #eee; /* Separator line */
+}
+
+/* 
+ * Action Button Spacing
+ * Margin between action buttons
+ */
+.card-actions button {
+  margin-left: 10px;
+  text-transform: none; /* Keep button text in original case */
+}
+
+/* ===== SPECIFIC BUTTON VARIANT STYLES ===== */
+
+/* 
+ * Delete Button - Red variant
+ * Destructive action styling
+ */
+.delete-button {
+  background-color: #f44336 !important;
+  color: white !important;
+}
+
+.delete-button:hover {
+  background-color: #d32f2f !important;
+}
+
+/* 
+ * Edit Button - Orange variant
+ * Modification action styling
+ */
+.edit-button {
+  background-color: #ff9800 !important;
+  color: white !important;
+}
+
+.edit-button:hover {
+  background-color: #f57c00 !important;
+}
+
+/* 
+ * Update Button - Green variant
+ * Save/confirm action styling
+ */
+.update-button {
+  background-color: #4caf50 !important;
+  color: white !important;
+}
+
+.update-button:hover {
+  background-color: #45a049 !important;
+}
+
+/* 
+ * Cancel Button - Gray variant
+ * Secondary action styling
+ */
+.cancel-button {
+  background-color: #9e9e9e !important;
+  color: white !important;
+}
+
+.cancel-button:hover {
+  background-color: #757575 !important;
+}
+
+/* ===== LAYOUT COMPONENT STYLES ===== */
+
+/* 
+ * Posts Grid Container
+ * Wrapper for the grid of blog posts
+ */
+.posts-grid {
+  margin-top: 20px;
+}
+
+/* 
+ * Loading State
+ * Displayed when fetching data
+ */
+.loading {
+  text-align: center;
+  padding: 40px;
+  font-size: 18px;
+  color: #666;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+/* 
+ * Error State
+ * Displayed when API requests fail
+ */
+.error {
+  text-align: center;
+  padding: 40px;
+  color: #f44336;
+  font-size: 16px;
+  background-color: #ffebee; /* Light red background */
+  border-radius: 8px;
+  margin: 20px 0;
+}
+
+/* 
+ * Empty State
+ * Displayed when no posts exist
+ */
+.empty-state {
+  text-align: center;
+  padding: 60px 20px;
+  color: #666;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  border: 2px dashed #ddd;
+}
+
+.empty-state h3 {
+  margin-bottom: 10px;
+  color: #333;
+}
+
+/* ===== RESPONSIVE DESIGN ===== */
+
+/* 
+ * Tablet Breakpoint (768px and below)
+ */
+@media (max-width: 768px) {
+  .container {
+    padding-top: 16px;
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+
+  .card {
+    padding: 16px;
+    margin-bottom: 16px;
+  }
+
+  .post-title {
+    font-size: 20px;
+  }
+
+  .card-actions {
+    justify-content: space-between; /* Spread buttons on mobile */
+  }
+
+  .card-actions button {
+    margin-left: 0;
+    flex: 1; /* Equal width buttons on mobile */
+    margin: 0 4px;
+  }
+}
+
+/* 
+ * Mobile Breakpoint (480px and below)
+ */
+@media (max-width: 480px) {
+  .container {
+    padding-top: 12px;
+    padding-left: 8px;
+    padding-right: 8px;
+  }
+
+  .card {
+    padding: 12px;
+  }
+
+  .post-title {
+    font-size: 18px;
+  }
+
+  .add-post-button {
+    padding: 10px 20px;
+    font-size: 14px;
+  }
+}

@@ -1,0 +1,42 @@
+/* 
+ * Global Reset and Base Styles
+ * This file contains global styles that affect the entire application
+ */
+
+/* CSS Reset - Remove default margins and padding */
+* {
+  box-sizing: border-box; /* Include padding and border in element's total width/height */
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
+  -webkit-font-smoothing: antialiased; /* Smooth font rendering on WebKit */
+  -moz-osx-font-smoothing: grayscale; /* Smooth font rendering on Firefox */
+}
+
+/* Code element styling for any code blocks */
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    monospace;
+}
+
+/* Remove default link styling */
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* Ensure images are responsive */
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Focus styles for accessibility */
+*:focus {
+  outline: 2px solid #62929a;
+  outline-offset: 2px;
+}
