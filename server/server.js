@@ -6,26 +6,50 @@ require('dotenv').config();
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// Middleware
+// Middleware - Fixed CORS for Azure deployment
+const allowedOrigins = [
+    'http://localhost:3000',
+    process.env.FRONTEND_URL, // Add your Azure frontend URL here
+    // Add your actual Azure URLs like:
+    // 'https://your-frontend-app.azurewebsites.net'
+];
+
 app.use(cors({
-  origin: 'http://localhost:3000',
-  credentials: true,
-  methods: ['GET', 'POST', 'PUT', 'DELETE']
+    origin: function(origin, callback) {
+        // Allow requests with no origin (mobile apps, Postman, etc.)
+        if (!origin) return callback(null, true);
+        
+        if (allowedOrigins.indexOf(origin) !== -1 || allowedOrigins.includes(undefined)) {
+            callback(null, true);
+        } else {
+            callback(new Error('Not allowed by CORS'));
+        }
+    },
+    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE']
 }));
 
 app.use(express.json());
 
-// MongoDB Connection
-mongoose.connect(process.env.MONGODB_URI || 'mongodb+srv://Jeff:Jeff6595@cluster0.nfko3ho.mongodb.net/blog?retryWrites=true&w=majority&appName=Cluster0', {
-    useNewUrlParser: true,
-    useUnifiedTopology: true
-});
+// MongoDB Connection - Removed deprecated options
+const mongoURI = process.env.MONGODB_URI;
+
+if (!mongoURI) {
+    console.error('❌ MONGODB_URI is not defined in environment variables');
+    process.exit(1);
+}
+
+mongoose.connect(mongoURI)
+    .then(() => console.log('✅ Connected to MongoDB database'))
+    .catch((err) => {
+        console.error('❌ MongoDB connection error:', err);
+        process.exit(1);
+    });
 
 const db = mongoose.connection;
-db.on('error', console.error.bind(console, 'MongoDB connection error:'));
-db.once('open', () => {
-    console.log('Connected to MongoDB database: blog');
-});
+db.on('error', console.error.bind(console, '❌ MongoDB connection error:'));
+db.on('disconnected', () => console.log('⚠️ MongoDB disconnected'));
+db.on('reconnected', () => console.log('✅ MongoDB reconnected'));
 
 // Post Model
 const postSchema = new mongoose.Schema({
@@ -54,6 +78,15 @@ const Post = mongoose.model('Post', postSchema);
 // Routes
 
 // Health check route
+app.get('/', (req, res) => {
+    res.json({ 
+        message: 'Blog API is running!',
+        status: 'healthy',
+        timestamp: new Date().toISOString(),
+        environment: process.env.NODE_ENV || 'development'
+    });
+});
+
 app.get('/api', (req, res) => {
     res.json({ 
         message: 'Blog API is running!',
@@ -69,7 +102,8 @@ app.get('/api/posts', async (req, res) => {
     } catch (err) {
         console.error('Error fetching posts:', err);
         res.status(500).json({
-            message: 'Failed to fetch posts'
+            message: 'Failed to fetch posts',
+            error: process.env.NODE_ENV === 'development' ? err.message : undefined
         });
     }
 });
@@ -93,7 +127,8 @@ app.post('/api/posts', async (req, res) => {
     } catch (err) {
         console.error('Error creating post:', err);
         res.status(400).json({
-            message: 'Failed to create post'
+            message: 'Failed to create post',
+            error: process.env.NODE_ENV === 'development' ? err.message : undefined
         });
     }
 });
@@ -127,7 +162,8 @@ app.put('/api/posts/:id', async (req, res) => {
     } catch (err) {
         console.error('Error updating post:', err);
         res.status(400).json({
-            message: 'Failed to update post'
+            message: 'Failed to update post',
+            error: process.env.NODE_ENV === 'development' ? err.message : undefined
         });
     }
 });
@@ -147,15 +183,25 @@ app.delete('/api/posts/:id', async (req, res) => {
     } catch (err) {
         console.error('Error deleting post:', err);
         res.status(500).json({
-            message: 'Failed to delete post'
+            message: 'Failed to delete post',
+            error: process.env.NODE_ENV === 'development' ? err.message : undefined
         });
     }
 });
 
 // Simple 404 handler for API routes
-app.use('/api', (req, res) => {
+app.use('/api/*', (req, res) => {
     res.status(404).json({
         message: 'API endpoint not found'
+    });
+});
+
+// Global error handler
+app.use((err, req, res, next) => {
+    console.error('Global error:', err);
+    res.status(500).json({
+        message: 'Internal server error',
+        error: process.env.NODE_ENV === 'development' ? err.message : undefined
     });
 });
 
@@ -163,11 +209,19 @@ app.use('/api', (req, res) => {
 app.listen(PORT, () => {
     console.log(`🚀 Server is running on port ${PORT}`);
     console.log(`📝 API available at: http://localhost:${PORT}/api`);
+    console.log(`🌍 Environment: ${process.env.NODE_ENV || 'development'}`);
 });
 
 // Graceful shutdown
 process.on('SIGINT', async () => {
     console.log('\n👋 Shutting down server gracefully...');
+    await mongoose.connection.close();
+    console.log('✅ MongoDB connection closed.');
+    process.exit(0);
+});
+
+process.on('SIGTERM', async () => {
+    console.log('\n👋 SIGTERM received, shutting down gracefully...');
     await mongoose.connection.close();
     console.log('✅ MongoDB connection closed.');
     process.exit(0);
